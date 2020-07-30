@@ -1,0 +1,16 @@
+\.env
+
+# coverage
+coverage
+
+# build
+dist
+
+# yarn
+yarn-error.log
+node_modules
+
+# system files
+*.orig
+.DS_Store
+Thumbs.db
