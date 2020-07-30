@@ -15,6 +15,7 @@ const resolvers = {
 
 const options = {
     port: 5000,
+    playground: '/playground'
 };
 
 const server = new GraphQLServer({ typeDefs, resolvers })
@@ -23,4 +24,8 @@ log.info('Starting server.');
 
 server.start(options, () => {
   log.info(`Server is running on http://localhost:${options.port}`);
+
+  if(options.playground) {
+    log.info(`GraphQL playground is running on http://localhost:${options.port}${options.playground}`);
+  }
 });
