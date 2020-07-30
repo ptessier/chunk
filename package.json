@@ -4,7 +4,7 @@
   "author": "Philippe Tessier <philipper.tessier@gmail.com>",
   "license": "MIT",
   "scripts": {
-    "start": "ts-node src/index.ts",
+    "start": "nodemon",
     "lint": "run-s -s lint:ts lint:tslint",
     "lint:ts": "tsc --noEmit --skipLibCheck",
     "lint:tslint": "tslint -e '**/node_modules/**' --project tsconfig.json",
@@ -19,6 +19,7 @@
   "devDependencies": {
     "@types/express-pino-logger": "^4.0.2",
     "@types/pino": "^6.3.0",
+    "nodemon": "^2.0.4",
     "prettier": "^2.0.5",
     "ts-node": "^8.10.2",
     "tslint": "^6.1.2",
