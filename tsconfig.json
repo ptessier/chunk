@@ -15,6 +15,6 @@
     "experimentalDecorators": true,
 
     // Module Mapping
-    "baseUrl": ".",
+    "baseUrl": "."
   }
 }
