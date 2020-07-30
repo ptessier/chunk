@@ -16,6 +16,7 @@ const resolvers = {
 const options = {
   port: 5000,
   playground: '/playground',
+  tracing: true,
 };
 
 const server = createServer({ typeDefs, resolvers });
