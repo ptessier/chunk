@@ -1,5 +1,5 @@
-import { GraphQLServer } from 'graphql-yoga'
 import { log } from './logger';
+import { createServer } from './create-server';
 
 const typeDefs = `
   type Query {
@@ -18,7 +18,7 @@ const options = {
     playground: '/playground'
 };
 
-const server = new GraphQLServer({ typeDefs, resolvers })
+const server = createServer({ typeDefs, resolvers })
 
 log.info('Starting server.');
 
