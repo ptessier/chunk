@@ -1,4 +1,5 @@
 import { GraphQLServer } from 'graphql-yoga'
+import { log } from './logger';
 
 const typeDefs = `
   type Query {
@@ -12,5 +13,14 @@ const resolvers = {
   },
 }
 
+const options = {
+    port: 5000,
+};
+
 const server = new GraphQLServer({ typeDefs, resolvers })
-server.start(() => console.log('Server is running on localhost:4000'))
+
+log.info('Starting server.');
+
+server.start(options, () => {
+  log.info(`Server is running on http://localhost:${options.port}`);
+});
