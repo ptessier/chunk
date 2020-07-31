@@ -1,11 +1,12 @@
 import { importSchema } from 'graphql-import';
+import { createContext } from '~/context/create-context';
 import { createServer } from '~/create-server';
 import { log } from '~/logger';
 import { resolvers } from '~/resolver';
 import { config } from './config';
 
 const server = createServer({
-  logging: true,
+  context: createContext,
   typeDefs: importSchema('src/schema.graphql'),
   resolvers,
 });

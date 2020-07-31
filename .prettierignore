@@ -11,6 +11,9 @@ coverage/
 ## prettier
 .prettierignore
 
+## generated
+*/generated/**
+
 ## yarn
 node_modules/
 yarn.lock

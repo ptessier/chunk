@@ -1,0 +1,16 @@
+version: '3.7'
+
+services:
+  pg:
+    image: postgres
+    expose:
+      - '5432'
+    ports:
+      - '5432:5432'
+    environment:
+      - POSTGRES_DB=prisma
+      - POSTGRES_HOST_AUTH_METHOD=trust
+    volumes:
+      - './database/data:/var/lib/postgresql/data'
+      - './database/init:/docker-entrypoint-initdb.d'
+    restart: always
