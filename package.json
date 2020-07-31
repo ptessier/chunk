@@ -9,7 +9,10 @@
     "lint:ts": "tsc --noEmit --skipLibCheck",
     "lint:tslint": "tslint -e '**/node_modules/**' --project tsconfig.json",
     "clean": "find . -name 'node_modules' -type d -prune -exec rm -rf '{}' +",
-    "prettier": "prettier --write --ignore-path .prettierignore '**/*.{js,jsx,json,md,ts,tsx}' "
+    "prettier": "prettier --write --ignore-path .prettierignore '**/*.{js,jsx,json,md,ts,tsx}'",
+    "test": "jest",
+    "test:ci": "jest --ci",
+    "coverage": "jest --coverage"
   },
   "dependencies": {
     "compression": "^1.7.4",
@@ -25,9 +28,12 @@
     "@types/cors": "^2.8.6",
     "@types/express-pino-logger": "^4.0.2",
     "@types/helmet": "^0.0.47",
+    "@types/jest": "^26.0.7",
     "@types/pino": "^6.3.0",
+    "jest": "^26.2.1",
     "nodemon": "^2.0.4",
     "prettier": "^2.0.5",
+    "ts-jest": "^26.1.4",
     "ts-node": "^8.10.2",
     "tsconfig-paths": "^3.9.0",
     "tslint": "^6.1.2",
@@ -35,5 +41,26 @@
     "tslint-plugin-prettier": "^2.3.0",
     "typescript": "^3.9.7",
     "yarn-run-all": "^3.1.1"
+  },
+  "jest": {
+    "coveragePathIgnorePatterns": [
+      "/node_modules/",
+      "/tests/"
+    ],
+    "moduleFileExtensions": [
+      "ts",
+      "js",
+      "json"
+    ],
+    "moduleNameMapper": {
+      "~/(.*)": "<rootDir>/src/$1"
+    },
+    "roots": [
+      "<rootDir>"
+    ],
+    "testRegex": "((test|spec)\\.(jsx?|tsx?))$",
+    "transform": {
+      "^.+\\.ts$": "ts-jest"
+    }
   }
 }
