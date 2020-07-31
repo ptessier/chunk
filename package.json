@@ -21,6 +21,7 @@
     "graphql-import": "^1.0.2",
     "graphql-yoga": "^1.18.3",
     "helmet": "^3.23.3",
+    "nconf": "^0.10.0",
     "pino": "^6.4.1"
   },
   "devDependencies": {
@@ -29,6 +30,7 @@
     "@types/express-pino-logger": "^4.0.2",
     "@types/helmet": "^0.0.47",
     "@types/jest": "^26.0.7",
+    "@types/nconf": "^0.10.0",
     "@types/pino": "^6.3.0",
     "jest": "^26.2.1",
     "nodemon": "^2.0.4",

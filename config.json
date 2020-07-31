@@ -1,0 +1,6 @@
+{
+  "graphql": {
+    "port": 5000,
+    "playground": "/playground"
+  }
+}

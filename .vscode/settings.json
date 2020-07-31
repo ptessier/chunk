@@ -4,9 +4,11 @@
     "source.fixAll": true
   },
   "editor.formatOnType": true,
-  "editor.formatOnPaste": true,
+  "editor.formatOnPaste": false,
   "editor.formatOnSave": true,
   "editor.tabSize": 2,
 
-  "tslint.packageManager": "yarn"
+  "tslint.packageManager": "yarn",
+
+  "typescript.preferences.importModuleSpecifier": "non-relative"
 }
