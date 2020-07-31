@@ -1,7 +1,7 @@
 import { importSchema } from 'graphql-import';
 import { createServer } from '~/create-server';
 import { log } from '~/logger';
-import { resolvers } from '~/resolvers';
+import { resolvers } from '~/resolver';
 
 const options = {
   port: 5000,

@@ -1,4 +1,4 @@
-import { baseResolver } from '~/resolvers/base-resolver';
+import { baseResolver } from '~/resolver/base-resolver';
 
 export const version = baseResolver.createResolver(() => {
   const metadata = require(`${process.cwd()}/package.json`);

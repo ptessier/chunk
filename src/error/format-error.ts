@@ -1,4 +1,4 @@
-import { ErrorInfo, isInstance } from '~/errors/base-error';
+import { ErrorInfo, isInstance } from '~/error/base-error';
 
 export const formatError = (error: any, returnNull = false): ErrorInfo => {
   const originalError = error ? error.originalError || error : null;

@@ -1,7 +1,7 @@
-import { UnknownError } from '~/errors';
-import { isInstance } from '~/errors/base-error';
+import { UnknownError } from '~/error';
+import { isInstance } from '~/error/base-error';
 import { isDevelopment } from '~/helper/environment';
-import { createResolver } from '~/resolvers/create-resolver';
+import { createResolver } from '~/resolver/create-resolver';
 
 export const baseResolver = createResolver(
   // incoming requests will pass through this resolver like a no-op

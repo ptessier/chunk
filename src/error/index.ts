@@ -1,4 +1,4 @@
-import { createError } from '~/errors/base-error';
+import { createError } from '~/error/base-error';
 
 export const AuthenticationRequiredError = createError('AuthenticationRequiredError', {
   message: 'You must be logged in to do this',
