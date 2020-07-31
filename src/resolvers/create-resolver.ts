@@ -1,4 +1,4 @@
-import { isFunction, isNotNullOrUndefined, Promisify } from '../helper';
+import { isFunction, isNotNullOrUndefined, Promisify } from '~/helper';
 
 export type ResultFunction<ResulType> = (root, args, context, info) => Promise<ResulType> | ResulType | void;
 

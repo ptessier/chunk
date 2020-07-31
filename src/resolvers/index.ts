@@ -1,4 +1,4 @@
-import { version } from './version';
+import { version } from '~/resolvers/version';
 
 export const resolvers = {
   Query: {
