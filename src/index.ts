@@ -1,17 +1,7 @@
+import { importSchema } from 'graphql-import';
 import { createServer } from './create-server';
 import { log } from './logger';
-
-const typeDefs = `
-  type Query {
-    hello(name: String): String!
-  }
-`;
-
-const resolvers = {
-  Query: {
-    hello: (_, { name }) => `Hello ${name || 'World'}`,
-  },
-};
+import { resolvers } from './resolvers';
 
 const options = {
   port: 5000,
@@ -19,7 +9,11 @@ const options = {
   tracing: true,
 };
 
-const server = createServer({ typeDefs, resolvers });
+const server = createServer({
+  logging: true,
+  typeDefs: importSchema('src/schema.graphql'),
+  resolvers,
+});
 
 log.info('Starting server.');
 
