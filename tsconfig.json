@@ -13,6 +13,7 @@
     "allowJs": true,
     "allowSyntheticDefaultImports": true,
     "experimentalDecorators": true,
+    "noImplicitAny": false,
 
     // Module Mapping
     "baseUrl": "."
