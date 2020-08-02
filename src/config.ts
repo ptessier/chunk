@@ -8,6 +8,10 @@ export class ConfigProvider {
     this.nconf = env('_').file({ file: `${process.cwd()}/config.json` });
   }
 
+  secret() {
+    return this.get('secret');
+  }
+
   graphql(): Options {
     return this.get('graphql');
   }

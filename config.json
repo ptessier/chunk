@@ -1,4 +1,5 @@
 {
+  "secret": "a_secret_not_secret_for_development",
   "graphql": {
     "port": 5000,
     "playground": "/playground"

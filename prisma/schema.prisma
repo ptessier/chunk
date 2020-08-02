@@ -17,9 +17,8 @@ model Post {
 
 model User {
   id        Int      @default(autoincrement()) @id
-  createdAt DateTime @default(now())
-  name      String?
   password  String
   email     String   @unique
+  createdAt DateTime @default(now())
   Post      Post[]
 }

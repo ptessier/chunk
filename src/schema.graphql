@@ -1,3 +1,24 @@
 type Query {
   version: String!
+
+  # Authenticated users can retrieve info about themselves
+  me: User
+}
+
+type Mutation {
+  # Everyone can signup
+  signup(email: String!, password: String!): AuthPayload!
+
+  # Everyone can login
+  login(email: String!, password: String!): AuthPayload!
+}
+
+type AuthPayload {
+  token: String!
+  user: User!
+}
+
+type User {
+  id: ID!
+  email: String!
 }
