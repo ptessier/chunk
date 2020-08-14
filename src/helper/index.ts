@@ -1,7 +1,7 @@
-export const isFunction = (fn) => typeof fn === 'function' || fn instanceof Function;
+export const isFunction = (fn: any) => typeof fn === 'function' || fn instanceof Function;
 
-export const Promisify = (fn) => {
-  return (...args) =>
+export const Promisify = (fn: any) => {
+  return (...args: any) =>
     new Promise((resolve, reject) => {
       try {
         return Promise.resolve(fn(...args)).then(
@@ -14,4 +14,4 @@ export const Promisify = (fn) => {
     });
 };
 
-export const isNotNullOrUndefined = (val) => val !== null && val !== undefined;
+export const isNotNullOrUndefined = (val: any) => val !== null && val !== undefined;

@@ -53,7 +53,7 @@ prisma migrate save --experimental
 # update the database with the migration
 prisma migrate up --experimental
 ```
- 
+
 Finally, update the schema in `database/init`.
 
 [source](https://www.prisma.io/docs/reference/tools-and-interfaces/prisma-migrate)
@@ -64,5 +64,3 @@ Finally, update the schema in `database/init`.
 # dump a postgres docker container
 docker exec [container-name] pg_dump -U postgres --schema-only --no-owner [db-name] > database/init/schema.sql
 ```
-
-

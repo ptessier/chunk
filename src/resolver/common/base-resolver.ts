@@ -1,7 +1,7 @@
-import { UnknownError } from '~/error';
-import { isInstance } from '~/error/base-error';
+import { isInstance } from 'apollo-errors';
+import { createResolver } from 'apollo-resolvers';
+import { UnknownError } from '~/error/unknown-error';
 import { isDevelopment } from '~/helper/environment';
-import { createResolver } from '~/resolver/common/create-resolver';
 
 export const baseResolver = createResolver(
   // incoming requests will pass through this resolver like a no-op

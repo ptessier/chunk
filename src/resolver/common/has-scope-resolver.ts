@@ -1,4 +1,4 @@
-import { NotAuthorizedError } from '~/error';
+import { NotAuthorizedError } from '~/error/not-authorized-error';
 import { JwtTokens } from '~/helper/jwt-tokens';
 import { isAuthenticatedResolver } from '~/resolver/common/is-authenticated-resolver';
 

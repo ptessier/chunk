@@ -1,4 +1,4 @@
-import { AuthenticationRequiredError } from '~/error';
+import { AuthenticationRequiredError } from '~/error/authentication-required-error';
 import { baseResolver } from '~/resolver/common/base-resolver';
 
 export const isAuthenticatedResolver = baseResolver.createResolver(

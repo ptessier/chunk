@@ -1,5 +1,5 @@
+import { createError } from 'apollo-errors';
 import { config } from '~/config';
-import { createError } from '~/error/base-error';
 import { JwtTokens } from '~/helper/jwt-tokens';
 import { Passwords } from '~/helper/passwords';
 import { baseResolver } from '~/resolver/common/base-resolver';
