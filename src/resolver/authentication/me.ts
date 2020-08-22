@@ -1,10 +1,7 @@
 import { Context } from '~/context/create-context';
 import { isAuthenticatedResolver } from '~/resolver/common/is-authenticated-resolver';
 
-const meResolver = (__, ___, context: Context) => {
-  const userId = context.viewer.userId;
+const resolver = (_, __, context: Context, ___) =>
+  context.prisma.user.findOne({ where: { id: context.viewer.userId } });
 
-  return context.prisma.user.findOne({ where: { id: userId } });
-};
-
-export const me = isAuthenticatedResolver.createResolver(meResolver);
+export const me = isAuthenticatedResolver.createResolver(resolver);

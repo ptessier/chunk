@@ -3,6 +3,13 @@ type Query {
 
   # Authenticated users can retrieve info about themselves
   me: User
+
+  # Authenticated users can retrieve info about a given user
+  user(id: ID!): User
+  userByEmail(email: String!): User
+
+  # Authenticated users can retrieve a list of users
+  users(skip: Int, take: Int, orderBy: UserOrderByInput): [User!]!
 }
 
 type Mutation {
@@ -10,19 +17,22 @@ type Mutation {
   signup(email: String!, password: String!): AuthPayload!
 
   # Signup with invite token
-  signupByInvite(data: SignupByInviteInput!): AuthPayload!
+  signupByInvite(email: String!, inviteToken: String!, password: String!): AuthPayload!
 
   # Everyone can login
   login(email: String!, password: String!): AuthPayload!
 
-  # Invite another user
-  invite(email: String!): User!
+  # Invite a user
+  inviteUser(email: String!): User!
 
   # Send reset password email
   sendResetPassword(email: String!): User!
 
   # Change password
   changePassword(email: String!): User!
+
+  # Confirm email
+  confirmEmail(email: String!, emailConfirmToken: String!): User!
 }
 
 type AuthPayload {
@@ -33,11 +43,14 @@ type AuthPayload {
 type User {
   id: ID!
   email: String!
-  inviteAccepted: Boolean!
 }
 
-input SignupByInviteInput {
-  email: String!
-  inviteToken: String!
-  password: String!
+input UserOrderByInput {
+  email: Sort
+  createdAt: Sort
+}
+
+enum Sort {
+  asc
+  desc
 }

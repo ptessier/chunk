@@ -7,10 +7,13 @@
   "editor.formatOnPaste": false,
   "editor.formatOnSave": true,
   "editor.tabSize": 2,
-  "typescript.preferences.importModuleSpecifier": "non-relative",
+  "editor.rulers": [
+    120
+  ],
   "files.watcherExclude": {
     "**/.git/objects/**": true,
     "**/.git/subtree-cache/**": true,
     "**/.hg/store/**": true
-  }
+  },
+  "typescript.preferences.importModuleSpecifier": "non-relative",
 }

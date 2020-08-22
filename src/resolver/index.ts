@@ -6,7 +6,11 @@ import { login } from '~/resolver/authentication/login';
 import { me } from '~/resolver/authentication/me';
 import { sendResetPassword } from '~/resolver/authentication/send-reset-password';
 import { signup } from '~/resolver/authentication/signup';
-import { version } from '~/resolver/version-resolver';
+import { signupByInvite } from '~/resolver/authentication/signup-by-invite';
+import { version } from '~/resolver/common/version-resolver';
+import { user } from '~/resolver/user/user';
+import { userByEmail } from '~/resolver/user/user-by-email';
+import { users } from '~/resolver/user/users';
 
 export const resolvers = {
   AuthPayload,
@@ -17,9 +21,13 @@ export const resolvers = {
     login,
     sendResetPassword,
     signup,
+    signupByInvite,
   },
   Query: {
     me,
+    user,
+    userByEmail,
+    users,
     version,
   },
 };

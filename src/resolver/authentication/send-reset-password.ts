@@ -1,32 +1,33 @@
-import { createError } from 'apollo-errors';
 import { Context } from '~/context/create-context';
-import { uuid } from '~/helper/uuid';
+import { InvalidEmailError } from '~/error/invalid-email-error';
+import { UserNotFoundError } from '~/error/user-not-found-error';
+import { tokens } from '~/helper/tokens';
+import { validator } from '~/helper/validator';
 import { baseResolver } from '~/resolver/common/base-resolver';
 
-const UserNotFoundError = createError('UserNotFoundError', {
-  message: 'User not found',
-});
+const resolver = async (_, { email }, context: Context, __) => {
+  if (!validator.isEmail(email)) {
+    throw new InvalidEmailError();
+  }
 
-export const sendResetPassword = baseResolver.createResolver(async (_, args, context: Context, __) => {
-  const user = await context.prisma.user.findOne({ where: { email: args.email } });
+  const user = await context.prisma.user.findOne({ where: { email } });
 
   if (!user) {
     throw new UserNotFoundError();
   }
 
-  // Expires in two hours
-  const resetExpires = new Date(new Date().getTime() + 7200000).toISOString();
-  const resetToken = uuid();
+  // Expires in 2h
+  const resetExpires = new Date(new Date().getTime() + 1000 * 60 * 60 * 2).toISOString();
+  const resetToken = tokens.generate();
 
   const updatedUser = await context.prisma.user.update({
     where: { id: user.id },
-    data: {
-      resetExpires,
-      resetToken,
-    },
+    data: { resetExpires, resetToken },
   });
 
   // TODO: send reste password email
 
   return updatedUser;
-});
+};
+
+export const sendResetPassword = baseResolver.createResolver(resolver);

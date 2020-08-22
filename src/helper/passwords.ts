@@ -1,6 +1,8 @@
 import bcrypt from 'bcryptjs';
 
+const PASSWORD_SALT = 10;
+
 export const Passwords = Object.freeze({
-  compare: bcrypt.compare,
-  hash: bcrypt.hash,
+  compare: (s: string, hash: string) => bcrypt.compare(s, hash),
+  hash: (s: string) => bcrypt.hash(s, PASSWORD_SALT),
 });

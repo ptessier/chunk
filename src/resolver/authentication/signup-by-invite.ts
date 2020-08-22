@@ -1,44 +1,39 @@
-import { createError } from 'apollo-errors';
-import { config } from '~/config';
 import { Context } from '~/context/create-context';
+import { InvalidInviteTokenError } from '~/error/invalid-invite-token-error';
+import { UserNotFoundError } from '~/error/user-not-found-error';
 import { JwtTokens } from '~/helper/jwt-tokens';
 import { Passwords } from '~/helper/passwords';
+import { log } from '~/logger';
 import { baseResolver } from '~/resolver/common/base-resolver';
 
-const UserNotFoundError = createError('UserNotFoundError', {
-  message: 'User not found',
-});
+const resolver = async (_, { email, password, inviteToken }, context: Context, __) => {
+  const user = await context.prisma.user.findOne({ where: { email } });
 
-const InvalidInviteTokenError = createError('InvalidInviteTokenError', {
-  message: 'Invite token is invalid',
-});
-
-export const signupByInvite = baseResolver.createResolver(async (_, args, context: Context, __) => {
-  const user = await context.prisma.user.findOne({
-    where: { email: args.email },
-  });
+  log.info(`searching user with ${email}`);
 
   if (!user) {
     throw new UserNotFoundError();
   }
 
-  if (user.inviteToken !== args.inviteToken || user.inviteAccepted) {
+  log.info(`validating token ${inviteToken} expecting ${inviteToken}`);
+
+  if (user.inviteToken !== inviteToken || user.inviteAccepted) {
     throw new InvalidInviteTokenError();
   }
 
-  const password = await Passwords.hash(args.password, config.secret());
+  const hashedPassword = await Passwords.hash(password);
 
   const updatedUser = await context.prisma.user.update({
     where: { id: user.id },
-    data: {
-      inviteToken: null,
-      inviteAccepted: true,
-      password,
-    },
+    data: { inviteToken: null, inviteAccepted: true, emailConfirmed: true, password: hashedPassword },
   });
 
+  log.info(updatedUser);
+
   return {
-    token: JwtTokens.sign({ userId: user.id }, config.secret()),
+    token: JwtTokens.sign({ userId: user.id }),
     user: updatedUser,
   };
-});
+};
+
+export const signupByInvite = baseResolver.createResolver(resolver);

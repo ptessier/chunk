@@ -1,4 +1,4 @@
-import { sanitizeVersion } from '~/resolver/version-resolver';
+import { sanitizeVersion } from '~/resolver/common/version-resolver';
 
 describe('sanitizeVersion', () => {
   test('removes version suffix when present', () => {

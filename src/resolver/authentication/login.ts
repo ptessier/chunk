@@ -1,18 +1,11 @@
-import { createError } from 'apollo-errors';
-import { config } from '~/config';
+import { Context } from '~/context/create-context';
+import { InvalidPasswordError } from '~/error/invalid-password-error';
+import { UserNotFoundError } from '~/error/user-not-found-error';
 import { JwtTokens } from '~/helper/jwt-tokens';
 import { Passwords } from '~/helper/passwords';
 import { baseResolver } from '~/resolver/common/base-resolver';
 
-const InvalidPasswordError = createError('InvalidPasswordError', {
-  message: 'Invalid password',
-});
-
-const UserNotFoundError = createError('UserNotFoundError', {
-  message: 'No user found',
-});
-
-export const loginResolver = async (_, { email, password }, context, __) => {
+const resolver = async (_, { email, password }, context: Context, __) => {
   const user = await context.prisma.user.findOne({ where: { email } });
 
   if (!user) {
@@ -20,14 +13,15 @@ export const loginResolver = async (_, { email, password }, context, __) => {
   }
 
   const valid = await Passwords.compare(password, user.password);
+
   if (!valid) {
     throw new InvalidPasswordError();
   }
 
   return {
-    token: JwtTokens.sign({ userId: user.id }, config.secret()),
+    token: JwtTokens.sign({ userId: user.id }),
     user,
   };
 };
 
-export const login = baseResolver.createResolver(loginResolver);
+export const login = baseResolver.createResolver(resolver);

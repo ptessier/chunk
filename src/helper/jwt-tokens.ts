@@ -1,14 +1,19 @@
-import jwt, { SignOptions } from 'jsonwebtoken';
-import { Viewer } from '~/context/authorize';
+import jwt from 'jsonwebtoken';
+import { config } from '~/config';
+import { Viewer } from '~/model/viewer';
 
 const SCOPE_SEPARATOR = ' ';
 
+const SIGN_OPTIONS = { expiresIn: '1d' };
+
+const JWT_SECRET = config.secret();
+
 export const JwtTokens = Object.freeze({
-  sign(payload: Viewer, secret: string, options: SignOptions = { expiresIn: '1d' }) {
-    return jwt.sign(payload, secret, options);
+  sign(payload: Viewer) {
+    return jwt.sign(payload, JWT_SECRET, SIGN_OPTIONS);
   },
-  verify(token: string, secret: string): Viewer {
-    return jwt.verify(token, secret) as Viewer;
+  verify(token: string): Viewer {
+    return jwt.verify(token, JWT_SECRET) as Viewer;
   },
   joinScopes(scopes: string[]): string {
     if (scopes == null) {

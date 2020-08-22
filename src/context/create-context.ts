@@ -1,17 +1,17 @@
 import { PrismaClient } from '@prisma/client';
 import { ContextParameters } from 'graphql-yoga/dist/types';
-import { config } from '~/config';
-import { authorize, Viewer } from '~/context/authorize';
-
-const prisma = new PrismaClient();
+import { authorize } from '~/context/authorize';
+import { Viewer } from '~/model/viewer';
 
 export interface Context extends ContextParameters {
   prisma: PrismaClient;
   viewer: Viewer;
 }
 
+const prisma = new PrismaClient();
+
 export const createContext = (context: ContextParameters): Context => ({
   ...context,
   prisma,
-  viewer: authorize(context.request, config.secret()),
+  viewer: authorize(context.request),
 });

@@ -1,31 +1,32 @@
-import { createError } from 'apollo-errors';
 import { Context } from '~/context/create-context';
-import { uuid } from '~/helper/uuid';
+import { InvalidEmailError } from '~/error/invalid-email-error';
+import { UserAlreadyExistsError } from '~/error/user-already-exists-error';
+import { tokens } from '~/helper/tokens';
+import { validator } from '~/helper/validator';
+import { log } from '~/logger';
 import { baseResolver } from '~/resolver/common/base-resolver';
 
-const UserAlreadyExistsError = createError('UserAlreadyExistsError', {
-  message: 'User already exists',
-});
+const resolver = async (_, { email }, context: Context, __) => {
+  if (!validator.isEmail(email)) {
+    throw new InvalidEmailError();
+  }
 
-export const inviteUser = baseResolver.createResolver(async (_, args, context: Context, __) => {
-  const inviteToken = uuid();
-
-  const existingUser = await context.prisma.user.findOne({ where: { email: args.email } });
+  const existingUser = await context.prisma.user.findOne({ where: { email } });
 
   if (existingUser) {
     throw new UserAlreadyExistsError();
   }
 
+  const inviteToken = tokens.generate();
+
   const user = await context.prisma.user.create({
-    data: {
-      email: args.email,
-      password: '',
-      inviteAccepted: false,
-      inviteToken,
-    },
+    data: { email, password: '', inviteAccepted: false, inviteToken },
   });
 
   // TODO: send invite email
+  log.info(`inviteToken: ${inviteToken}`);
 
   return user;
-});
+};
+
+export const inviteUser = baseResolver.createResolver(resolver);

@@ -1,22 +1,13 @@
-import { createError } from 'apollo-errors';
 import { Context } from '~/context/create-context';
+import { ResetTokenExpiredError } from '~/error/reset-token-expirer-error';
+import { UserNotFoundError } from '~/error/user-not-found-error';
 import { Passwords } from '~/helper/passwords';
 import { baseResolver } from '~/resolver/common/base-resolver';
 
-const UserNotFoundError = createError('UserNotFoundError', {
-  message: 'User not found',
-});
+const resolver = async (_, { email, password, resetToken }, context: Context, __) => {
+  const user = await context.prisma.user.findOne({ where: { email } });
 
-const ResetTokenExpiredError = createError('ResetTokenExpiredError', {
-  message: 'Reset token has expired',
-});
-
-export const changePassword = baseResolver.createResolver(async (_, args, context: Context, __) => {
-  const user = await context.prisma.user.findOne({
-    where: { email: args.email },
-  });
-
-  if (!user || !user.resetExpires || user.resetToken !== args.resetToken) {
+  if (!user || !user.resetExpires || user.resetToken !== resetToken) {
     throw new UserNotFoundError();
   }
 
@@ -24,12 +15,14 @@ export const changePassword = baseResolver.createResolver(async (_, args, contex
     throw new ResetTokenExpiredError();
   }
 
-  const password = await Passwords.hash(args.password, 10);
+  const hashedPassword = await Passwords.hash(password);
 
   const updatedUser = await context.prisma.user.update({
     where: { id: user.id },
-    data: { resetToken: null, resetExpires: undefined, password },
+    data: { resetToken: undefined, resetExpires: undefined, password: hashedPassword },
   });
 
   return updatedUser;
-});
+};
+
+export const changePassword = baseResolver.createResolver(resolver);
