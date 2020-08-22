@@ -16,9 +16,15 @@ model Post {
 }
 
 model User {
-  id        Int      @default(autoincrement()) @id
-  password  String
-  email     String   @unique
-  createdAt DateTime @default(now())
-  Post      Post[]
+  id                Int       @default(autoincrement()) @id
+  password          String
+  email             String    @unique
+  inviteToken       String?
+  inviteAccepted    Boolean?
+  emailConfirmToken String?
+  emailConfirmed    Boolean   @default(false)
+  resetToken        String?
+  resetExpires      DateTime?
+  createdAt         DateTime  @default(now())
+  Post              Post[]
 }

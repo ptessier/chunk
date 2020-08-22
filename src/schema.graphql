@@ -9,8 +9,20 @@ type Mutation {
   # Everyone can signup
   signup(email: String!, password: String!): AuthPayload!
 
+  # Signup with invite token
+  signupByInvite(data: SignupByInviteInput!): AuthPayload!
+
   # Everyone can login
   login(email: String!, password: String!): AuthPayload!
+
+  # Invite another user
+  invite(email: String!): User!
+
+  # Send reset password email
+  sendResetPassword(email: String!): User!
+
+  # Change password
+  changePassword(email: String!): User!
 }
 
 type AuthPayload {
@@ -21,4 +33,11 @@ type AuthPayload {
 type User {
   id: ID!
   email: String!
+  inviteAccepted: Boolean!
+}
+
+input SignupByInviteInput {
+  email: String!
+  inviteToken: String!
+  password: String!
 }
