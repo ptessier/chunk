@@ -4,6 +4,8 @@ import { log } from '~/logger';
 import { Viewer } from '~/model/viewer';
 
 export const authorize = (request: Request): Viewer => {
+  if (!request) return undefined;
+
   const authorization = request.get('Authorization');
 
   if (authorization) {

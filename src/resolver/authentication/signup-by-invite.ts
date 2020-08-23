@@ -3,19 +3,14 @@ import { InvalidInviteTokenError } from '~/error/invalid-invite-token-error';
 import { UserNotFoundError } from '~/error/user-not-found-error';
 import { JwtTokens } from '~/helper/jwt-tokens';
 import { Passwords } from '~/helper/passwords';
-import { log } from '~/logger';
 import { baseResolver } from '~/resolver/common/base-resolver';
 
 const resolver = async (_, { email, password, inviteToken }, context: Context, __) => {
   const user = await context.prisma.user.findOne({ where: { email } });
 
-  log.info(`searching user with ${email}`);
-
   if (!user) {
     throw new UserNotFoundError();
   }
-
-  log.info(`validating token ${inviteToken} expecting ${inviteToken}`);
 
   if (user.inviteToken !== inviteToken || user.inviteAccepted) {
     throw new InvalidInviteTokenError();
@@ -28,7 +23,7 @@ const resolver = async (_, { email, password, inviteToken }, context: Context, _
     data: { inviteToken: null, inviteAccepted: true, emailConfirmed: true, password: hashedPassword },
   });
 
-  log.info(updatedUser);
+  context.pubsub.publish('NEW_USER', user);
 
   return {
     token: JwtTokens.sign({ userId: user.id }),

@@ -21,6 +21,8 @@ const resolver = async (_, { email, password }, context: Context, __) => {
 
   // TODO: send confirm email
 
+  context.pubsub.publish('NEW_USER', user);
+
   return {
     token: JwtTokens.sign({ userId: user.id }),
     user,

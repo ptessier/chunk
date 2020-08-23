@@ -35,6 +35,11 @@ type Mutation {
   confirmEmail(email: String!, emailConfirmToken: String!): User!
 }
 
+type Subscription {
+  # Subscribe to new user event
+  newUser: User
+}
+
 type AuthPayload {
   token: String!
   user: User!
