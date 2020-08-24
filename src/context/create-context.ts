@@ -14,9 +14,11 @@ const pubsub = new PubSub();
 
 const prisma = new PrismaClient();
 
-export const createContext = (context: ContextParameters): Context => ({
-  ...context,
-  prisma,
-  pubsub,
-  viewer: authorize(context.request),
-});
+export const createContext = (context: ContextParameters): Context => {
+  return {
+    ...context,
+    prisma,
+    pubsub,
+    viewer: authorize(context),
+  };
+};

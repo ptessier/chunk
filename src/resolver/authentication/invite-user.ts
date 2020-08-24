@@ -6,7 +6,7 @@ import { validator } from '~/helper/validator';
 import { log } from '~/logger';
 import { baseResolver } from '~/resolver/common/base-resolver';
 
-const resolver = async (_, { email }, context: Context, __) => {
+const resolver = async (parent, { email }, context: Context, info) => {
   if (!validator.isEmail(email)) {
     throw new InvalidEmailError();
   }

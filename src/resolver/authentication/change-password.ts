@@ -4,7 +4,7 @@ import { UserNotFoundError } from '~/error/user-not-found-error';
 import { Passwords } from '~/helper/passwords';
 import { baseResolver } from '~/resolver/common/base-resolver';
 
-const resolver = async (_, { email, password, resetToken }, context: Context, __) => {
+const resolver = async (parent, { email, password, resetToken }, context: Context, info) => {
   const user = await context.prisma.user.findOne({ where: { email } });
 
   if (!user || !user.resetExpires || user.resetToken !== resetToken) {

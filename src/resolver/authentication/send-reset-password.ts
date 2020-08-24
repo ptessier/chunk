@@ -5,7 +5,7 @@ import { tokens } from '~/helper/tokens';
 import { validator } from '~/helper/validator';
 import { baseResolver } from '~/resolver/common/base-resolver';
 
-const resolver = async (_, { email }, context: Context, __) => {
+const resolver = async (parent, { email }, context: Context, info) => {
   if (!validator.isEmail(email)) {
     throw new InvalidEmailError();
   }
@@ -25,7 +25,7 @@ const resolver = async (_, { email }, context: Context, __) => {
     data: { resetExpires, resetToken },
   });
 
-  // TODO: send reste password email
+  // TODO: send reset password email
 
   return updatedUser;
 };

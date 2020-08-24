@@ -15,6 +15,17 @@ const options = config.graphql();
 
 log.info('Starting server.', options);
 
+options.subscriptions = {
+  onConnect: (connectionParams, _webSocket, _context) => {
+    log.info('ws connected');
+
+    return connectionParams;
+  },
+  onDisconnect: (_webSocket, _context) => {
+    log.info('ws disconnected');
+  },
+};
+
 server.start(options, () => {
   log.info(`Server is running on http://localhost:${options.port}`);
 

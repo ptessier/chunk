@@ -1,0 +1,6 @@
+- Extract permissions out of resolvers
+- Add performance logging
+- Keep trace of requests
+- Revoke tokens
+- Add chat use cases
+- Add admin role

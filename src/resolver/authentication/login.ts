@@ -5,7 +5,7 @@ import { JwtTokens } from '~/helper/jwt-tokens';
 import { Passwords } from '~/helper/passwords';
 import { baseResolver } from '~/resolver/common/base-resolver';
 
-const resolver = async (_, { email, password }, context: Context, __) => {
+const resolver = async (parent, { email, password }, context: Context, info) => {
   const user = await context.prisma.user.findOne({ where: { email } });
 
   if (!user) {

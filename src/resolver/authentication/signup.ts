@@ -5,8 +5,9 @@ import { Passwords } from '~/helper/passwords';
 import { tokens } from '~/helper/tokens';
 import { validator } from '~/helper/validator';
 import { baseResolver } from '~/resolver/common/base-resolver';
+import { NEW_USER } from '~/subscription/triggers';
 
-const resolver = async (_, { email, password }, context: Context, __) => {
+const resolver = async (parent, { email, password }, context: Context, info) => {
   if (!validator.isEmail(email)) {
     throw new InvalidEmailError();
   }
@@ -21,7 +22,7 @@ const resolver = async (_, { email, password }, context: Context, __) => {
 
   // TODO: send confirm email
 
-  context.pubsub.publish('NEW_USER', user);
+  context.pubsub.publish(NEW_USER, user);
 
   return {
     token: JwtTokens.sign({ userId: user.id }),
